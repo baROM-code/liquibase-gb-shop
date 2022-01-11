@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd ">
+
+    <changeSet id="before_create_table.USER_ROLE" author="roman.bar" context="postgresql" labels="user_role">
+        <tagDatabase tag="before_create_user_role"/>
+    </changeSet>
+
+    <changeSet id="create_table.USER_ROLE" author="roman.bar" context="postgresql" labels="user_role">
+        <createTable tableName="USER_ROLE">
+            <column name="USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="USER_ROLE" columnNames="USER_ID, ROLE_ID"/>
+
+        <addForeignKeyConstraint baseTableName="USER_ROLE" baseColumnNames="USER_ID" constraintName="fk_user_role_account_user"
+                                 referencedTableName="ACCOUNT_USER" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="USER_ROLE" baseColumnNames="ROLE_ID" constraintName="fk_user_role_account_role"
+                                 referencedTableName="ACCOUNT_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

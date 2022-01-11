@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd ">
+
+    <changeSet id="before_create_table.AUTHORITY" author="roman.bar" context="postgresql" labels="AUTHORITY_TABLES">
+        <tagDatabase tag="before_create_AUTHORITY"/>
+    </changeSet>
+
+    <changeSet id="create_table.AUTHORITY" author="roman.bar" context="postgresql" labels="AUTHORITY">
+        <createTable tableName="AUTHORITY">
+            <column name="ID" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PERMISSION" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table.ROLE_AUTHORITY" author="roman.bar" context="postgresql" labels="ROLE_AUTHORITY">
+        <createTable tableName="ROLE_AUTHORITY">
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUTHORITY_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="ROLE_AUTHORITY" columnNames="ROLE_ID, AUTHORITY_ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROLE_AUTHORITY" baseColumnNames="ROLE_ID" constraintName="fk_role_authority_account_role"
+                                 referencedTableName="ACCOUNT_ROLE" referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROLE_AUTHORITY" baseColumnNames="AUTHORITY_ID" constraintName="fk_role_authority_authority"
+                                 referencedTableName="AUTHORITY" referencedColumnNames="ID"/>
+    </changeSet>
+
+</databaseChangeLog>
